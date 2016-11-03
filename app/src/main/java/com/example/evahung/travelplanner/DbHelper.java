@@ -35,17 +35,29 @@ public class DbHelper extends SQLiteOpenHelper {
             + TravelActivityEntry.COL_NAME_ACTIVITY_ID + " INTEGER" + COMMA_SEP
             + TravelActivityEntry.COL_NAME_TRAVEL_ID + " INTEGER);";
 
+    private static final String EXPENSE_SQL_CREATE_ENTRIES = "CREATE TABLE "
+            + ExpenseEntry.TBL_NAME + "(" + ExpenseEntry._ID + " INTEGER PRIMARY KEY,"
+            + ExpenseEntry.COL_NAME_EXPENSE_NAME + TEXT_TYPE + COMMA_SEP
+            + ExpenseEntry.COL_NAME_EXPENSE_TAG + TEXT_TYPE + COMMA_SEP
+            + ExpenseEntry.COL_NAME_EXPENSE + " FLOAT);";
+
+    private static final String ACTIVITY_EXPENSE_SQL_CREATE_ENTRIES = "CREATE TABLE "
+            + ActivityExpenseEntry.TBL_NAME + "(" + ActivityExpenseEntry._ID + " INTEGER PRIMARY KEY,"
+            + ActivityExpenseEntry.COL_NAME_EXPENSE_ID + " INTEGER" + COMMA_SEP
+            + ActivityExpenseEntry.COL_NAME_ACTIVITY_ID + " INTEGER);";
+
     public DbHelper(Context context)
     {
         super(context, DB_NAME, null, DB_VERSION);
     }
-
 
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
         sqLiteDatabase.execSQL(ACTIVITY_SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(TRAVEL_SQL_CREATE_ENTRIES);
         sqLiteDatabase.execSQL(TRAVEL_ACTIVITY_SQL_CREATE_ENTRIES);
+        sqLiteDatabase.execSQL(EXPENSE_SQL_CREATE_ENTRIES);
+        sqLiteDatabase.execSQL(ACTIVITY_EXPENSE_SQL_CREATE_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
@@ -53,6 +65,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ActivityEntry.TBL_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TravelEntry.TBL_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TravelActivityEntry.TBL_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ExpenseEntry.TBL_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ActivityExpenseEntry.TBL_NAME);
 
         onCreate(sqLiteDatabase);
     }
